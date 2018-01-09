@@ -311,7 +311,7 @@ export class CalendarModal {
     // init year array
     this.years = []
     // getting max and be sure, it is in future (maybe parameter?)
-    let maxYear = endTime
+    let maxYear = endTime || new Date().getFullYear()
 
     if (maxYear <= 1970) {
       maxYear = new Date(this.defaultScrollTo).getFullYear() + 10

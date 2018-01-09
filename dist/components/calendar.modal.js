@@ -158,7 +158,7 @@ var CalendarModal = /** @class */ (function () {
         // init year array
         this.years = [];
         // getting max and be sure, it is in future (maybe parameter?)
-        var maxYear = endTime;
+        var maxYear = endTime || new Date().getFullYear();
         if (maxYear <= 1970) {
             maxYear = new Date(this.defaultScrollTo).getFullYear() + 10;
             this.options.end = new Date(maxYear, 12, 0).getTime();
