@@ -319,7 +319,11 @@ export class CalendarModal {
 
     this.years.reverse()
     // selection-start-year of defaultScrollTo
-    this.year = this.defaultScrollTo.getFullYear()
+    if (this.defaultScrollTo) {
+      this.year = this.defaultScrollTo.getFullYear()
+    } else {
+      this.year = new Date().getFullYear()
+    }
     let firstDayOfYear = new Date(this.year, 0, 1)
     let lastDayOfYear = new Date(this.year, 12, 0)
 
