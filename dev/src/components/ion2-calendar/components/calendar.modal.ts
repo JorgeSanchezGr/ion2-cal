@@ -201,6 +201,14 @@ export class CalendarModal {
             this._getDayTime(this._d.defaultDate),
             this._d
           )
+
+          if (this.showYearPicker) {
+            if (this.datesTemp[0]) {
+              this.year = new Date(this.datesTemp[0].time).getFullYear()
+            } else {
+              this.year = new Date().getFullYear()
+            }
+          }
         }
         break
       case "range":
@@ -247,6 +255,10 @@ export class CalendarModal {
 
   onChange(data: any) {
     this.datesTemp = data
+    console.log("Changes!", this.datesTemp)
+    if (this._d.pickMode == "single") {
+      this.year = new Date(this.datesTemp[0].time).getFullYear()
+    }
     this.calSvc.savedHistory(data, this._id)
     this.ref.detectChanges()
 
