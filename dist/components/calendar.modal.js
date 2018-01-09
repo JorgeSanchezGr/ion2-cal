@@ -73,6 +73,14 @@ var CalendarModal = /** @class */ (function () {
             case "single":
                 if (this._d.defaultDate) {
                     this.datesTemp[0] = this.calSvc.createCalendarDay(this._getDayTime(this._d.defaultDate), this._d);
+                    if (this.showYearPicker) {
+                        if (this.datesTemp[0]) {
+                            this.year = new Date(this.datesTemp[0].time).getFullYear();
+                        }
+                        else {
+                            this.year = new Date().getFullYear();
+                        }
+                    }
                 }
                 break;
             case "range":
@@ -108,6 +116,10 @@ var CalendarModal = /** @class */ (function () {
     };
     CalendarModal.prototype.onChange = function (data) {
         this.datesTemp = data;
+        console.log("Changes!", this.datesTemp);
+        if (this._d.pickMode == "single") {
+            this.year = new Date(this.datesTemp[0].time).getFullYear();
+        }
         this.calSvc.savedHistory(data, this._id);
         this.ref.detectChanges();
         if (this._d.pickMode !== "multi" && this._d.autoDone && this.canDone()) {
@@ -161,7 +173,12 @@ var CalendarModal = /** @class */ (function () {
         }
         this.years.reverse();
         // selection-start-year of defaultScrollTo
-        this.year = this.defaultScrollTo.getFullYear();
+        if (this.defaultScrollTo) {
+            this.year = this.defaultScrollTo.getFullYear();
+        }
+        else {
+            this.year = new Date().getFullYear();
+        }
         var firstDayOfYear = new Date(this.year, 0, 1);
         var lastDayOfYear = new Date(this.year, 12, 0);
         // don't calc over the start / end

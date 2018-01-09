@@ -201,6 +201,14 @@ export class CalendarModal {
             this._getDayTime(this._d.defaultDate),
             this._d
           )
+
+          if (this.showYearPicker) {
+            if (this.datesTemp[0]) {
+              this.year = new Date(this.datesTemp[0].time).getFullYear()
+            } else {
+              this.year = new Date().getFullYear()
+            }
+          }
         }
         break
       case "range":
@@ -247,6 +255,10 @@ export class CalendarModal {
 
   onChange(data: any) {
     this.datesTemp = data
+    console.log("Changes!", this.datesTemp)
+    if (this._d.pickMode == "single") {
+      this.year = new Date(this.datesTemp[0].time).getFullYear()
+    }
     this.calSvc.savedHistory(data, this._id)
     this.ref.detectChanges()
 
@@ -319,7 +331,11 @@ export class CalendarModal {
 
     this.years.reverse()
     // selection-start-year of defaultScrollTo
-    this.year = this.defaultScrollTo.getFullYear()
+    if (this.defaultScrollTo) {
+      this.year = this.defaultScrollTo.getFullYear()
+    } else {
+      this.year = new Date().getFullYear()
+    }
     let firstDayOfYear = new Date(this.year, 0, 1)
     let lastDayOfYear = new Date(this.year, 12, 0)
 
